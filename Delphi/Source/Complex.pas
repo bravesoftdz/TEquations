@@ -10,8 +10,8 @@ type
   private
    r: Double;
    i: Double;
-   fr: TFraction;
-   fi: TFraction;
+   function GetReal: TFraction;
+   function GetImag: TFraction;
   public
    constructor Create(const real, imaginary: double);
    class operator Implicit(const D: Double): TComplex;
@@ -41,8 +41,8 @@ type
    function ToString: string;
    property RealPart: Double read r;
    property ImagPart: Double read i;
-   property RealPartFraction: TFraction read fr;
-   property ImagPartFraction: TFraction read fi;
+   property RealPartFraction: TFraction read GetReal;
+   property ImagPartFraction: TFraction read GetImag;
 end;
 
 const
@@ -54,9 +54,6 @@ constructor TComplex.Create(const real, imaginary: double);
 begin
   r := real;
   i := imaginary;
-
-  fr := TFraction.Create(real);
-  fi := TFraction.Create(imaginary);
 end;
 
 class operator TComplex.Implicit(const D: Double): TComplex;
@@ -74,6 +71,16 @@ end;
 class operator TComplex.Equal(const C1, C2: TComplex): Boolean;
 begin
   Result := (C1.r = C2.r) and (C1.i = C2.i);
+end;
+
+function TComplex.GetReal: TFraction;
+begin
+  Result := TFraction.Create(r);
+end;
+
+function TComplex.GetImag: TFraction;
+begin
+  Result := TFraction.Create(i);
 end;
 
 class operator TComplex.NotEqual(const C1, C2: TComplex): Boolean;
@@ -189,16 +196,17 @@ begin
 end;
 
 class function TComplex.power(const D: TComplex; exp: double): TComplex;
-var modl, arg, x_log_re, x_log_im, modans: double;
+var arg, x_log_re, x_log_im: double;
+    modans, sin, cos: extended;
 begin
-  modl := System.Sqrt(D.r*D.r + D.i*D.i);
   arg := System.Math.ArcTan2(D.i, D.r);
-  x_log_re := exp * System.Ln(modl);
+  x_log_re := exp * System.Ln(D.Mag);
   x_log_im := exp * arg;
   modans := System.Exp(x_log_re);
 
-  Result.r := modans*System.Cos(x_log_im);
-  Result.i := modans*System.Sin(x_log_im);
+  System.SineCosine(x_log_im, sin, cos);
+  Result.r := modans*cos;
+  Result.i := modans*sin;
 end;
 
 function TComplex.IsZero: Boolean;
