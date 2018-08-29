@@ -1,6 +1,6 @@
 # Notes
 
-I have created and tested the plugin with MinGW **5.3.0** 32bit and MSVC **2017** 64bit; if you are using a more (or less) recent version you encounter or not some problems. Of course, the plugin uses the library source files and you'll have to pay attention to some configurations according to the compiler you are using:
+I have created and tested the plugin with MinGW **5.3.0** 32bit and MSVC **2017** 64bit; if you are using a more (or less) recent version you could encounter (or not) some problems. Of course, the plugin uses the library source files and you'll have to pay attention to some configurations according to the compiler you are using:
 
 **MSVC**. Be sure that you have C++17 enabled. In Qt 5.11 it can be enabled with `QMAKE_CXXFLAGS += /std:c++17`.
 
