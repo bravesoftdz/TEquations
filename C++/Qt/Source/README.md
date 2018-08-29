@@ -9,7 +9,7 @@ Before installing this be sure that you have read the <a href="https://github.co
  
  3. Place this folder somewhere (preferably in the same folder as your main project) and you are ready to go!
  
- #Usage example
+ # Usage example
  
  Let's do a quick example.
  
